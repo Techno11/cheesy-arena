@@ -7,7 +7,7 @@ package tournament
 
 import (
 	"fmt"
-	"github.com/Team254/cheesy-arena/model"
+	"github.com/Techno11/cheesy-arena/model"
 	"strconv"
 	"time"
 )

@@ -4,7 +4,7 @@
 package field
 
 import (
-	"github.com/Team254/cheesy-arena/websocket"
+	"github.com/Techno11/cheesy-arena/websocket"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

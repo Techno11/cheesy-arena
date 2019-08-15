@@ -8,7 +8,7 @@ package web
 import (
 	"bytes"
 	"fmt"
-	"github.com/Team254/cheesy-arena/model"
+	"github.com/Techno11/cheesy-arena/model"
 	"github.com/dchest/uniuri"
 	"github.com/gorilla/mux"
 	"net/http"

@@ -26,7 +26,7 @@ Teams may use Cheesy Arena freely for practice, scrimmages, and off-season event
 ## Installation and use
 **Via binaries:**
 
-1. Download the [latest release](https://github.com/Team254/cheesy-arena/releases) for OS X or Windows
+1. Download the [latest release](https://github.com/Techno11/cheesy-arena/releases) for OS X or Windows
 1. Unzip the file
 1. On Mac OS X, run `cheesy-arena.command`, and on Windows, run `cheesy-arena.exe`
 1. Navigate to http://localhost:8080 in your browser (Google Chrome recommended)
@@ -36,7 +36,7 @@ Teams may use Cheesy Arena freely for practice, scrimmages, and off-season event
 1. Download [Go](http://golang.org/doc/install)
 1. Set up your [Go workspace](http://golang.org/doc/code.html)
 1. If you're using Windows and don't already have a working version of GCC (needed to compile a dependency), install [TDM-GCC](http://tdm-gcc.tdragon.net).
-1. Download the Cheesy Arena source and dependencies with `go get github.com/Team254/cheesy-arena`
+1. Download the Cheesy Arena source and dependencies with `go get github.com/Techno11/cheesy-arena`
 1. Compile the code with `go build`
 1. Run the `cheesy-arena` or `cheesy-arena.exe` binary
 1. Navigate to http://localhost:8080 in your browser (Google Chrome recommended)
@@ -63,18 +63,18 @@ Cheesy Arena has the ability to integrate with an Allen-Bradley PLC setup simila
 Due to the prohibitive cost of the LEDs and LED controllers used on official fields, a custom solution was developed for Chezy Champs using consumer-grade LED strips and embedded microcontrollers.
 
 ## Advanced networking
-See the [Advanced Networking wiki page](https://github.com/Team254/cheesy-arena/wiki/Advanced-Networking-Concepts) for instructions on what equipment to obtain and how to configure it in order to support advanced network security.
+See the [Advanced Networking wiki page](https://github.com/Techno11/cheesy-arena/wiki/Advanced-Networking-Concepts) for instructions on what equipment to obtain and how to configure it in order to support advanced network security.
 
 ## Contributing
 Cheesy Arena is far from finished! You can help by:
 
 * Checking out the [TODO list](TODO.md), writing a missing feature, and sending a pull request
-* Filing any bugs or feature requests using the [issue tracker](https://github.com/Team254/cheesy-arena/issues)
-* Contributing documentation to the [wiki](https://github.com/Team254/cheesy-arena/wiki)
+* Filing any bugs or feature requests using the [issue tracker](https://github.com/Techno11/cheesy-arena/issues)
+* Contributing documentation to the [wiki](https://github.com/Techno11/cheesy-arena/wiki)
 * Sending baked goods to [Pat](https://github.com/patfair)
 
 ## Acknowledgements
-[Several folks](https://github.com/Team254/cheesy-arena/graphs/contributors) have contributed pull requests. Thanks!
+[Several folks](https://github.com/Techno11/cheesy-arena/graphs/contributors) have contributed pull requests. Thanks!
 
 In addition, the following individuals have contributed to make Cheesy Arena a reality:
 

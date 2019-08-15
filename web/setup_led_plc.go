@@ -7,10 +7,10 @@ package web
 
 import (
 	"fmt"
-	"github.com/Team254/cheesy-arena/field"
-	"github.com/Team254/cheesy-arena/led"
-	"github.com/Team254/cheesy-arena/model"
-	"github.com/Team254/cheesy-arena/websocket"
+	"github.com/Techno11/cheesy-arena/field"
+	"github.com/Techno11/cheesy-arena/led"
+	"github.com/Techno11/cheesy-arena/model"
+	"github.com/Techno11/cheesy-arena/websocket"
 	"github.com/mitchellh/mapstructure"
 	"io"
 	"log"

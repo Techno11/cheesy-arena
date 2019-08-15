@@ -5,7 +5,7 @@ package tournament
 
 import (
 	"fmt"
-	"github.com/Team254/cheesy-arena/model"
+	"github.com/Techno11/cheesy-arena/model"
 	"github.com/stretchr/testify/assert"
 	"math/rand"
 	"os"

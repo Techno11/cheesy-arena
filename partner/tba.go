@@ -11,7 +11,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
-	"github.com/Team254/cheesy-arena/model"
+	"github.com/Techno11/cheesy-arena/model"
 	"io/ioutil"
 	"net/http"
 	"strconv"

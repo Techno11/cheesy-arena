@@ -7,7 +7,7 @@ package model
 
 import (
 	"fmt"
-	"github.com/Team254/cheesy-arena/game"
+	"github.com/Techno11/cheesy-arena/game"
 	"github.com/stretchr/testify/assert"
 	"os"
 	"path/filepath"

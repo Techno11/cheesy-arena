@@ -4,9 +4,9 @@
 package web
 
 import (
-	"github.com/Team254/cheesy-arena/field"
-	"github.com/Team254/cheesy-arena/game"
-	"github.com/Team254/cheesy-arena/websocket"
+	"github.com/Techno11/cheesy-arena/field"
+	"github.com/Techno11/cheesy-arena/game"
+	"github.com/Techno11/cheesy-arena/websocket"
 	"github.com/stretchr/testify/assert"
 	"net/http"
 	"net/http/httptest"

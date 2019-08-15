@@ -7,11 +7,11 @@ package field
 
 import (
 	"fmt"
-	"github.com/Team254/cheesy-arena/game"
-	"github.com/Team254/cheesy-arena/model"
-	"github.com/Team254/cheesy-arena/network"
-	"github.com/Team254/cheesy-arena/partner"
-	"github.com/Team254/cheesy-arena/plc"
+	"github.com/Techno11/cheesy-arena/game"
+	"github.com/Techno11/cheesy-arena/model"
+	"github.com/Techno11/cheesy-arena/network"
+	"github.com/Techno11/cheesy-arena/partner"
+	"github.com/Techno11/cheesy-arena/plc"
 	"log"
 	"time"
 )
