@@ -207,6 +207,7 @@ func (arena *Arena) LoadTestMatch() error {
 
 // Loads the first unplayed match of the current match type.
 func (arena *Arena) LoadNextMatch() error {
+	arena.SetAllAllianceConnLights(false) // Turn off all AB lights
 	if arena.CurrentMatch.Type == "test" {
 		return arena.LoadTestMatch()
 	}
@@ -591,13 +592,17 @@ func (arena *Arena) checkAllianceStationsReady(stations ...string) error {
 	for _, station := range stations {
 		allianceStation := arena.AllianceStations[station]
 		if allianceStation.Estop {
+			arena.SetAllianceConnLights(station, false)
 			return fmt.Errorf("Cannot start match while an emergency stop is active.")
 		}
 		if !allianceStation.Bypass {
 			if allianceStation.DsConn == nil || !allianceStation.DsConn.RobotLinked {
+				arena.SetAllianceConnLights(station, false)
 				return fmt.Errorf("Cannot start match until all robots are connected or bypassed.")
 			}
 		}
+		// Turn On Light if ready
+		arena.SetAllianceConnLights(station, true)
 	}
 
 	return nil
@@ -684,6 +689,7 @@ func (arena *Arena) handlePlcOutput() {
 		if arena.FieldReset {
 			arena.Plc.SetFieldResetLight(true)
 		}
+		arena.SetAllAllianceConnLights(false) // Turn off All Connection lights
 		scoreReady := arena.RedRealtimeScore.FoulsCommitted && arena.BlueRealtimeScore.FoulsCommitted &&
 			arena.alliancePostMatchScoreReady("red") && arena.alliancePostMatchScoreReady("blue")
 		arena.Plc.SetStackLights(false, false, !scoreReady, false)
@@ -700,6 +706,41 @@ func (arena *Arena) handlePlcOutput() {
 		arena.Plc.SetCargoShipMagnets(false)
 		arena.Plc.SetRocketLights(arena.RedScoreSummary().CompleteRocket, arena.BlueScoreSummary().CompleteRocket)
 	}
+}
+
+// Functiom to properly set individual connection lights
+func (arena *Arena) SetAllianceConnLights(station string, mode bool) {
+	if arena.EventSettings.EnableABConnLights {
+		switch station {
+			case "R1":
+				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 1)}
+			case "R2":
+				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 2)}
+			case "R3":
+				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 3)}
+			case "B1":
+				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 1)}
+			case "B2":
+				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 2)}
+			case "B3":
+				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 3)}
+		}
+		arena.AllianceStations[station].DsConn.ConnectionStatusLight = mode
+	}
+
+}
+
+// Functiom to properly set all connection lights
+func (arena *Arena) SetAllAllianceConnLights(mode bool) {
+	if arena.EventSettings.EnableABConnLights {
+		if arena.AllianceStations["R1"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 1)}
+		if arena.AllianceStations["R2"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 2)}
+		if arena.AllianceStations["R3"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 3)}
+		if arena.AllianceStations["B1"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 1)}
+		if arena.AllianceStations["B2"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 2)}
+		if arena.AllianceStations["B3"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 3)}
+	}
+
 }
 
 func (arena *Arena) handleEstop(station string, state bool) {

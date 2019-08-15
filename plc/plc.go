@@ -62,7 +62,7 @@ const (
 	registerCount register = iota
 )
 
-// Coils
+// Coils (Outputs To PLC)
 type coil int
 
 const (
@@ -84,6 +84,14 @@ const (
 	rocketLightRedFar
 	rocketLightBlueNear
 	rocketLightBlueFar
+	unused18
+	unused19
+	redOneConn
+	redTwoConn
+	redThreeConn
+	blueOneConn
+	blueTwoConn
+	blueThreeConn
 	coilCount
 )
 
@@ -170,6 +178,31 @@ func (plc *Plc) SetStackLights(red, blue, orange, green bool) {
 	plc.coils[stackLightBlue] = blue
 	plc.coils[stackLightOrange] = orange
 	plc.coils[stackLightGreen] = green
+}
+
+// Toggle Robot Connection Lights
+func (plc *Plc) SetAllianceConnLights(red, blue, mode bool, allinceNum int) {
+	switch allinceNum {
+	case 1:
+		if red {plc.coils[redOneConn] = mode
+		} else if blue {plc.coils[blueOneConn] = mode}
+	case 2:
+		if red {plc.coils[redTwoConn] = mode
+		} else if blue {plc.coils[blueTwoConn] = mode}
+	case 3:
+		if red {plc.coils[redThreeConn] = mode
+		} else if blue {plc.coils[blueThreeConn] = mode}
+	}
+}
+
+// Toggle All Lights to be the same mode
+func (plc *Plc) SetAllConnLights(mode bool) {
+	plc.coils[redOneConn] = mode
+	plc.coils[blueOneConn] = mode
+	plc.coils[redTwoConn] = mode
+	plc.coils[blueTwoConn] = mode
+	plc.coils[redThreeConn] = mode
+	plc.coils[blueThreeConn] = mode
 }
 
 // Set the on/off state of the stack lights on the scoring table.

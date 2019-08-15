@@ -210,6 +210,12 @@
               <input type="text" class="form-control" name="plcAddress" value="{{.PlcAddress}}">
             </div>
           </div>
+          <div class="form-group">
+            <label class="col-lg-7 control-label">Enable Allen Bradley Alliance Connection Lights</label>
+            <div class="col-lg-1 checkbox">
+              <input type="checkbox" name="enableABConnLights"{{if .EnableABConnLights}} checked{{end}}>
+            </div>
+          </div>
         </fieldset>
         <fieldset>
           <legend>Game-Specific</legend>

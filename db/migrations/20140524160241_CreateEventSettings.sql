@@ -20,6 +20,7 @@ CREATE TABLE event_settings (
   switchaddress VARCHAR(255),
   switchpassword VARCHAR(255),
   plcaddress VARCHAR(255),
+  enableabconnlights bool,
   tbadownloadenabled bool,
   adminpassword VARCHAR(255),
   readerpassword VARCHAR(255),

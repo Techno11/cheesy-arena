@@ -26,12 +26,20 @@ func _() {
 	_ = x[rocketLightRedFar-15]
 	_ = x[rocketLightBlueNear-16]
 	_ = x[rocketLightBlueFar-17]
-	_ = x[coilCount-18]
+	_ = x[unused18-18]
+	_ = x[unused19-19]
+	_ = x[redOneConn-20]
+	_ = x[redTwoConn-21]
+	_ = x[redThreeConn-22]
+	_ = x[blueOneConn-23]
+	_ = x[blueTwoConn-24]
+	_ = x[blueThreeConn-25]
+	_ = x[coilCount-26]
 }
 
-const _coil_name = "heartbeatmatchResetstackLightGreenstackLightOrangestackLightRedstackLightBluestackLightBuzzerfieldResetLightcargoShipMagnetRedcargoShipMagnetBluecargoShipLightRedcargoShipLightBluesandstormUpRedsandstormUpBluerocketLightRedNearrocketLightRedFarrocketLightBlueNearrocketLightBlueFarcoilCount"
+const _coil_name = "heartbeatmatchResetstackLightGreenstackLightOrangestackLightRedstackLightBluestackLightBuzzerfieldResetLightcargoShipMagnetRedcargoShipMagnetBluecargoShipLightRedcargoShipLightBluesandstormUpRedsandstormUpBluerocketLightRedNearrocketLightRedFarrocketLightBlueNearrocketLightBlueFarunused18unused19redOneConnredTwoConnredThreeConnblueOneConnblueTwoConnblueThreeConncoilCount"
 
-var _coil_index = [...]uint16{0, 9, 19, 34, 50, 63, 77, 93, 108, 126, 145, 162, 180, 194, 209, 227, 244, 263, 281, 290}
+var _coil_index = [...]uint16{0, 9, 19, 34, 50, 63, 77, 93, 108, 126, 145, 162, 180, 194, 209, 227, 244, 263, 281, 289, 297, 307, 317, 329, 340, 351, 364, 373}
 
 func (i coil) String() string {
 	if i < 0 || i >= coil(len(_coil_index)-1) {

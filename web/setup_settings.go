@@ -64,6 +64,7 @@ func (web *Web) settingsPostHandler(w http.ResponseWriter, r *http.Request) {
 	eventSettings.SwitchAddress = r.PostFormValue("switchAddress")
 	eventSettings.SwitchPassword = r.PostFormValue("switchPassword")
 	eventSettings.PlcAddress = r.PostFormValue("plcAddress")
+	eventSettings.EnableABConnLights = r.PostFormValue("enableABConnLights") == "on"
 	eventSettings.AdminPassword = r.PostFormValue("adminPassword")
 	eventSettings.ReaderPassword = r.PostFormValue("readerPassword")
 	eventSettings.HabDockingThreshold, _ = strconv.Atoi(r.PostFormValue("habDockingThreshold"))

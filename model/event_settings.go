@@ -26,6 +26,7 @@ type EventSettings struct {
 	SwitchAddress          string
 	SwitchPassword         string
 	PlcAddress             string
+	EnableABConnLights     bool
 	AdminPassword          string
 	ReaderPassword         string
 	HabDockingThreshold    int
