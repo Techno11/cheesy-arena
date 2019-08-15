@@ -119,14 +119,21 @@ func (dsConn *DriverStationConnection) update(arena *Arena) error {
 		dsConn.RobotLinked = false
 		dsConn.BatteryVoltage = 0
 
-		//Turn off Alliance Connection Light if connection failed
+		//Turn on Alliance Connection Light if connection failed
 		//TODO Blink?
-		arena.SetAllianceConnLights(dsConn.AllianceStation, false)
+		arena.SetAllianceConnLights(dsConn.AllianceStation, true)
 	}
 
-	// Turn On Light if ready
-	if dsConn != nil {
+	// Turn off Light if ready and match state is prematch
+	if dsConn != nil && arena.MatchState == PreMatch {
 		if dsConn.DsLinked && dsConn.RobotLinked && dsConn.RadioLinked {
+			arena.SetAllianceConnLights(dsConn.AllianceStation, false)
+		} else {
+			arena.SetAllianceConnLights(dsConn.AllianceStation, true)
+		}
+	//If Match is running (Auto or Teleop) make lights function as they are supposed to there
+	} else if arena.MatchState == AutoPeriod || arena.MatchState == TeleopPeriod {
+		if dsConn.DsLinked && dsConn.RobotLinked && dsConn.RadioLinked && dsConn.Enabled {
 			arena.SetAllianceConnLights(dsConn.AllianceStation, true)
 		} else {
 			arena.SetAllianceConnLights(dsConn.AllianceStation, false)

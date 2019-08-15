@@ -208,7 +208,7 @@ func (arena *Arena) LoadTestMatch() error {
 
 // Loads the first unplayed match of the current match type.
 func (arena *Arena) LoadNextMatch() error {
-	arena.SetAllAllianceConnLights(false) // Turn off all AB lights
+	arena.SetAllAllianceConnLights(true) // Turn off all AB lights
 	if arena.CurrentMatch.Type == "test" {
 		return arena.LoadTestMatch()
 	}
@@ -300,7 +300,7 @@ func (arena *Arena) AbortMatch() error {
 		return fmt.Errorf("Cannot abort match when it is not in progress.")
 	}
 
-	arena.SetAllAllianceConnLights(false)
+	arena.SetAllAllianceConnLights(true)
 
 	if arena.MatchState == TimeoutActive {
 		// Handle by advancing the timeout clock to the end and letting the regular logic deal with it.
@@ -663,7 +663,7 @@ func (arena *Arena) handlePlcOutput() {
 	case PreMatch:
 		if arena.lastMatchState != PreMatch {
 			arena.Plc.SetFieldResetLight(true)
-			arena.SetAllAllianceConnLights(false)
+			arena.SetAllAllianceConnLights(true)
 		}
 		fallthrough
 	case TimeoutActive:
@@ -691,7 +691,7 @@ func (arena *Arena) handlePlcOutput() {
 		if arena.FieldReset {
 			arena.Plc.SetFieldResetLight(true)
 		}
-		arena.SetAllAllianceConnLights(false) // Turn off All Connection lights
+		arena.SetAllAllianceConnLights(true) // Turn off All Connection lights
 		scoreReady := arena.RedRealtimeScore.FoulsCommitted && arena.BlueRealtimeScore.FoulsCommitted &&
 			arena.alliancePostMatchScoreReady("red") && arena.alliancePostMatchScoreReady("blue")
 		arena.Plc.SetStackLights(false, false, !scoreReady, false)
