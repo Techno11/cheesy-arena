@@ -41,7 +41,6 @@ type DriverStationConnection struct {
 	DsRobotTripTimeMs         int
 	MissedPacketCount         int
 	SecondsSinceLastRobotLink float64
-	ConnectionStatusLight     bool
 	lastPacketTime            time.Time
 	lastRobotLinkedTime       time.Time
 	packetCount               int
@@ -123,9 +122,17 @@ func (dsConn *DriverStationConnection) update(arena *Arena) error {
 		//Turn off Alliance Connection Light if connection failed
 		//TODO Blink?
 		arena.SetAllianceConnLights(dsConn.AllianceStation, false)
-	} else {
-		arena.SetAllianceConnLights(dsConn.AllianceStation, true)
 	}
+
+	// Turn On Light if ready
+	if dsConn != nil {
+		if dsConn.DsLinked && dsConn.RobotLinked && dsConn.RadioLinked {
+			arena.SetAllianceConnLights(dsConn.AllianceStation, true)
+		} else {
+			arena.SetAllianceConnLights(dsConn.AllianceStation, false)
+		}
+	}
+
 	dsConn.SecondsSinceLastRobotLink = time.Since(dsConn.lastRobotLinkedTime).Seconds()
 
 	return nil

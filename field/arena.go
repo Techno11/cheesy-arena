@@ -74,6 +74,7 @@ type Arena struct {
 
 type AllianceStation struct {
 	DsConn *DriverStationConnection
+	ConnLightStatus bool
 	Astop  bool
 	Estop  bool
 	Bypass bool
@@ -298,6 +299,8 @@ func (arena *Arena) AbortMatch() error {
 	if arena.MatchState == PreMatch || arena.MatchState == PostMatch || arena.MatchState == PostTimeout {
 		return fmt.Errorf("Cannot abort match when it is not in progress.")
 	}
+
+	arena.SetAllAllianceConnLights(false)
 
 	if arena.MatchState == TimeoutActive {
 		// Handle by advancing the timeout clock to the end and letting the regular logic deal with it.
@@ -601,8 +604,6 @@ func (arena *Arena) checkAllianceStationsReady(stations ...string) error {
 				return fmt.Errorf("Cannot start match until all robots are connected or bypassed.")
 			}
 		}
-		// Turn On Light if ready
-		arena.SetAllianceConnLights(station, true)
 	}
 
 	return nil
@@ -662,6 +663,7 @@ func (arena *Arena) handlePlcOutput() {
 	case PreMatch:
 		if arena.lastMatchState != PreMatch {
 			arena.Plc.SetFieldResetLight(true)
+			arena.SetAllAllianceConnLights(false)
 		}
 		fallthrough
 	case TimeoutActive:
@@ -713,19 +715,19 @@ func (arena *Arena) SetAllianceConnLights(station string, mode bool) {
 	if arena.EventSettings.EnableABConnLights {
 		switch station {
 			case "R1":
-				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 1)}
+				if arena.AllianceStations[station].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 1)}
 			case "R2":
-				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 2)}
+				if arena.AllianceStations[station].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 2)}
 			case "R3":
-				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 3)}
+				if arena.AllianceStations[station].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 3)}
 			case "B1":
-				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 1)}
+				if arena.AllianceStations[station].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 1)}
 			case "B2":
-				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 2)}
+				if arena.AllianceStations[station].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 2)}
 			case "B3":
-				if arena.AllianceStations[station].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 3)}
+				if arena.AllianceStations[station].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 3)}
 		}
-		arena.AllianceStations[station].DsConn.ConnectionStatusLight = mode
+		arena.AllianceStations[station].ConnLightStatus = mode
 	}
 
 }
@@ -733,12 +735,12 @@ func (arena *Arena) SetAllianceConnLights(station string, mode bool) {
 // Functiom to properly set all connection lights
 func (arena *Arena) SetAllAllianceConnLights(mode bool) {
 	if arena.EventSettings.EnableABConnLights {
-		if arena.AllianceStations["R1"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 1)}
-		if arena.AllianceStations["R2"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 2)}
-		if arena.AllianceStations["R3"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 3)}
-		if arena.AllianceStations["B1"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 1)}
-		if arena.AllianceStations["B2"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 2)}
-		if arena.AllianceStations["B3"].DsConn.ConnectionStatusLight != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 3)}
+		if arena.AllianceStations["R1"].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 1)}
+		if arena.AllianceStations["R2"].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 2)}
+		if arena.AllianceStations["R3"].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(true, false, mode, 3)}
+		if arena.AllianceStations["B1"].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 1)}
+		if arena.AllianceStations["B2"].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 2)}
+		if arena.AllianceStations["B3"].ConnLightStatus != mode {arena.Plc.SetAllianceConnLights(false, true, mode, 3)}
 	}
 
 }
