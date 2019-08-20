@@ -6,8 +6,8 @@
 package web
 
 import (
-	"github.com/Team254/cheesy-arena/model"
-	"github.com/Team254/cheesy-arena/tournament"
+	"github.com/Techno11/cheesy-arena/model"
+	"github.com/Techno11/cheesy-arena/tournament"
 	"net/http"
 	"strconv"
 )
