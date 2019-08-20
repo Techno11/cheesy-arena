@@ -23,7 +23,6 @@ CREATE TABLE event_settings (
   enableabconnlights bool,
   tbadownloadenabled bool,
   adminpassword VARCHAR(255),
-  readerpassword VARCHAR(255),
   habdockingthreshold int
 );
 
