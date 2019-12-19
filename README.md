@@ -1,6 +1,7 @@
-Cheesy Arena [![Build Status](https://travis-ci.org/Team254/cheesy-arena.svg?branch=master)](https://travis-ci.org/Team254/cheesy-arena)
+Cheesy Arena [![Build Status](https://api.travis-ci.org/techno11/cheesy-arena.svg?branch=master)](https://travis-ci.org/techno11/cheesy-arena)
 ============
 A field management system that just works.
+
 (This particular version was modified to work with Allen Bradly Alliance stack lights for use at Kettering University's FIRST Robotics Community Center)
 
 ## Key features
