@@ -9,8 +9,13 @@ import (
 	"encoding/json"
 	"github.com/Techno11/cheesy-arena/game"
 	"github.com/Techno11/cheesy-arena/model"
+	"fmt"
+	"github.com/Techno11/cheesy-arena/partner"
+	"github.com/Techno11/cheesy-arena/websocket"
 	"github.com/gorilla/mux"
 	"net/http"
+	"os"
+	"strconv"
 )
 
 type MatchResultWithSummary struct {
@@ -175,4 +180,34 @@ func (web *Web) alliancesApiHandler(w http.ResponseWriter, r *http.Request) {
 		handleWebErr(w, err)
 		return
 	}
+}
+
+// Websocket API for receiving arena status updates.
+func (web *Web) arenaWebsocketApiHandler(w http.ResponseWriter, r *http.Request) {
+	ws, err := websocket.NewWebsocket(w, r)
+	if err != nil {
+		handleWebErr(w, err)
+		return
+	}
+	defer ws.Close()
+
+	// Subscribe the websocket to the notifiers whose messages will be passed on to the client.
+	ws.HandleNotifiers(web.arena.MatchTimingNotifier, web.arena.MatchLoadNotifier, web.arena.MatchTimeNotifier)
+}
+
+// Serves the avatar for a given team, or a default if none exists.
+func (web *Web) teamAvatarsApiHandler(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	teamId, err := strconv.Atoi(vars["teamId"])
+	if err != nil {
+		handleWebErr(w, err)
+		return
+	}
+
+	avatarPath := fmt.Sprintf("%s/%d.png", partner.AvatarsDir, teamId)
+	if _, err := os.Stat(avatarPath); os.IsNotExist(err) {
+		avatarPath = fmt.Sprintf("%s/0.png", partner.AvatarsDir)
+	}
+
+	http.ServeFile(w, r, avatarPath)
 }

@@ -6,7 +6,6 @@
 package web
 
 import (
-	"bitbucket.org/rj/httpauth-go"
 	"fmt"
 	"github.com/Techno11/cheesy-arena/field"
 	"github.com/Techno11/cheesy-arena/model"
@@ -18,18 +17,17 @@ import (
 )
 
 const (
-	adminUser = "admin"
+	sessionTokenCookie = "session_token"
+	adminUser          = "admin"
 )
 
 type Web struct {
 	arena           *field.Arena
-	cookieAuth      *httpauth.Cookie
 	templateHelpers template.FuncMap
 }
 
 func NewWeb(arena *field.Arena) *Web {
 	web := &Web{arena: arena}
-	web.cookieAuth = httpauth.NewCookie("Cheesy Arena", "", web.checkAuthPassword)
 
 	// Helper functions that can be used inside templates.
 	web.templateHelpers = template.FuncMap{
@@ -93,24 +91,6 @@ func (web *Web) indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// Returns true if the given user is authorized for admin operations. Used for HTTP cookie authentication.
-func (web *Web) userIsAdmin(w http.ResponseWriter, r *http.Request) bool {
-	if web.arena.EventSettings.AdminPassword == "" {
-		// Disable auth if there is no password configured.
-		return true
-	}
-	if web.cookieAuth.Authorize(r) == adminUser {
-		return true
-	} else {
-		http.Redirect(w, r, "/login?redirect="+r.URL.Path, 307)
-		return false
-	}
-}
-
-func (web *Web) checkAuthPassword(user, password string) bool {
-	return user == adminUser && password == web.arena.EventSettings.AdminPassword
-}
-
 // Sets up the mapping between URLs and handlers.
 func (web *Web) newHandler() http.Handler {
 	router := mux.NewRouter()
@@ -122,9 +102,11 @@ func (web *Web) newHandler() http.Handler {
 	router.HandleFunc("/alliance_selection/reset", web.allianceSelectionResetHandler).Methods("POST")
 	router.HandleFunc("/alliance_selection/start", web.allianceSelectionStartHandler).Methods("POST")
 	router.HandleFunc("/api/alliances", web.alliancesApiHandler).Methods("GET")
+	router.HandleFunc("/api/arena/websocket", web.arenaWebsocketApiHandler).Methods("GET")
 	router.HandleFunc("/api/matches/{type}", web.matchesApiHandler).Methods("GET")
 	router.HandleFunc("/api/rankings", web.rankingsApiHandler).Methods("GET")
 	router.HandleFunc("/api/sponsor_slides", web.sponsorSlidesApiHandler).Methods("GET")
+	router.HandleFunc("/api/teams/{teamId}/avatar", web.teamAvatarsApiHandler).Methods("GET")
 	router.HandleFunc("/display", web.placeholderDisplayHandler).Methods("GET")
 	router.HandleFunc("/display/websocket", web.placeholderDisplayWebsocketHandler).Methods("GET")
 	router.HandleFunc("/displays/alliance_station", web.allianceStationDisplayHandler).Methods("GET")
@@ -163,6 +145,7 @@ func (web *Web) newHandler() http.Handler {
 	router.HandleFunc("/reports/csv/wpa_keys", web.wpaKeysCsvReportHandler).Methods("GET")
 	router.HandleFunc("/setup/awards", web.awardsGetHandler).Methods("GET")
 	router.HandleFunc("/setup/awards", web.awardsPostHandler).Methods("POST")
+	router.HandleFunc("/setup/awards/publish", web.awardsPublishHandler).Methods("POST")
 	router.HandleFunc("/setup/db/clear", web.clearDbHandler).Methods("POST")
 	router.HandleFunc("/setup/db/restore", web.restoreDbHandler).Methods("POST")
 	router.HandleFunc("/setup/db/save", web.saveDbHandler).Methods("GET")
