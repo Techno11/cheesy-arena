@@ -1,6 +1,7 @@
 Cheesy Arena [![Build Status](https://travis-ci.org/Team254/cheesy-arena.svg?branch=master)](https://travis-ci.org/Team254/cheesy-arena)
 ============
 A field management system that just works.
+(This particular version was modified to work with Allen Bradly Alliance stack lights for use at Kettering University's FIRST Robotics Community Center)
 
 ## Key features
 **For participants and spectators:**
@@ -10,6 +11,7 @@ A field management system that just works.
 * Team stack lights and sevent-segment display are replaced by an LCD screen, which shows team info before the match and realtime scoring and timer during the match
 * Smooth-scrolling rankings display
 * Direct publishing of schedule, results, and rankings to The Blue Alliance
+* This version supports the Allen Bradly Alliance Station Stack Lights
 
 **For scorekeepers:**
 
