@@ -27,7 +27,14 @@ CREATE TABLE event_settings (
   enableabconnlights bool,
   tbadownloadenabled bool,
   adminpassword VARCHAR(255),
-  habdockingthreshold int
+  warmupdurationsec int,
+  autodurationsec int,
+  pausedurationsec int,
+  teleopdurationsec int,
+  warningremainingdurationsec int,
+  stage1capacity int,
+  stage2capacity int,
+  stage3capacity int
 );
 
 -- +goose Down
