@@ -82,7 +82,8 @@ type Arena struct {
 type AllianceStation struct {
 	DsConn *DriverStationConnection
 	ConnLightStatus bool
-	Ethernet bool	Astop  bool
+	Ethernet bool
+	Astop  bool
 	Estop  bool
 	Bypass bool
 	Team   *model.Team
@@ -844,6 +845,7 @@ func (arena *Arena) handlePlcOutput() {
 		if arena.lastMatchState != PreMatch {
 			arena.Plc.SetFieldResetLight(true)
 			arena.SetAllAllianceConnLights(true)
+			arena.Plc.SetFieldStatus(false)
 		}
 		fallthrough
 	case TimeoutActive:
@@ -862,6 +864,7 @@ func (arena *Arena) handlePlcOutput() {
 			arena.Plc.SetFieldResetLight(false)
 		}
 	case PostMatch:
+		arena.Plc.SetFieldStatus(false)
 		if arena.FieldReset {
 			arena.Plc.SetFieldResetLight(true)
 		}
@@ -879,6 +882,7 @@ func (arena *Arena) handlePlcOutput() {
 		arena.Plc.SetStageActivatedLights([3]bool{false, false, false}, [3]bool{false, false, false})
 		arena.Plc.SetControlPanelLights(false, false)
 	case AutoPeriod:
+		arena.Plc.SetFieldResetLight(true)
 		arena.Plc.SetPowerPortMotors(true)
 		fallthrough
 	case PausePeriod:

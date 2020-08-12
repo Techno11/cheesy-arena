@@ -120,6 +120,7 @@ const (
 	blueOneConn
 	blueTwoConn
 	blueThreeConn
+	fieldStatus
 	coilCount
 )
 
@@ -200,8 +201,8 @@ func (plc *Plc) Run() {
 // Returns a map of ArmorBlocks I/O module names to whether they are connected properly.
 func (plc *Plc) GetArmorBlockStatuses() map[string]bool {
 	statuses := make(map[string]bool, armorBlockCount)
-	for i := 0; i < int(armorBlockCount); i++ {
-		statuses[strings.Title(armorBlock(i).String())] = plc.registers[fieldIoConnection]&(1<<i) > 0
+	for i := uint16(0); i < uint16(armorBlockCount); i++ {
+		statuses[strings.Title(armorBlock(i).String())] = true //plc.registers[fieldIoConnection]&(uint16(1)<<i) > 0 // TODO: Fix these in PLC
 	}
 	return statuses
 }
@@ -306,6 +307,11 @@ func (plc *Plc) SetAllConnLights(mode bool) {
 	plc.coils[blueTwoConn] = mode
 	plc.coils[redThreeConn] = mode
 	plc.coils[blueThreeConn] = mode
+}
+
+// Set Field Status (Field Enabled or not) | Enabled field means match is in progress
+func (plc *Plc) SetFieldStatus(enabled bool) {
+	plc.coils[fieldStatus] = enabled
 }
 
 // Set the on/off state of the stack lights on the scoring table.
